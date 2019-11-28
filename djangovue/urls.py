@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include, url
 from django.views.generic import TemplateView
+from django.urls import include, path
+
 from rest_framework import routers
 from users import urls
 
@@ -27,4 +29,5 @@ urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='index.html')),
     url('api', include(router.urls)),
     url('api/', include(urls, namespace='users')),
+    path('', include('social_django.urls')),
 ]
