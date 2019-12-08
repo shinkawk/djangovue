@@ -21,7 +21,7 @@ from django.urls import include, path
 
 from rest_framework import routers
 from users import urls
-from auth0login import views
+from auth0login import views as auth0views
 
 router = routers.DefaultRouter()
 
@@ -31,5 +31,6 @@ urlpatterns = [
     url('api', include(router.urls)),
     url('api/', include(urls, namespace='users')),
     path('', include('social_django.urls')),
-    path('logout/', views.logout, name='logout'),
+    path('logout/', auth0views.logout, name='logout'),
+    path('authorize/', auth0views.authorize, name='authorize')
 ]

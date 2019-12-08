@@ -4,7 +4,9 @@ from django.contrib.auth import logout as log_out
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from urllib.parse import urlencode
-
+from django.contrib.auth.decorators import login_required
+import json
+from rest_framework.response import Response
 
 def logout(request):
     log_out(request)
@@ -12,3 +14,10 @@ def logout(request):
     logout_url = 'https://%s/v2/logout?client_id=%s&%s' % \
                  (settings.SOCIAL_AUTH_AUTH0_DOMAIN, settings.SOCIAL_AUTH_AUTH0_KEY, return_to)
     return HttpResponseRedirect(logout_url)
+
+@login_required
+def authorize(request):
+    userdata = {
+        'hogehoge' : 'foo'
+    }
+    return Response(userdata)

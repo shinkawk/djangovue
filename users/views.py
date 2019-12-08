@@ -3,13 +3,15 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
+from rest_framework import authentication, permissions
+
 
 from .models import *
 
 class UserListApiView(ListAPIView):
     model = User
     queryset = User.objects.all()
-    permission_classes = (AllowAny, )
+    permission_classes = (permissions.IsAdminUser)
     renderer_classes = (JSONRenderer, )
     serializer_class = UserListSerializer
 
