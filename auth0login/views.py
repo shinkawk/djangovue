@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 import json
 from rest_framework.response import Response
 from django.http import JsonResponse
-
+from users.models import User
 
 def logout(request):
     log_out(request)
@@ -19,7 +19,14 @@ def logout(request):
 
 @login_required
 def authorize(request):
+    user = request.user
+    auth0user = user.social_auth.get(provider='auth0')
+    user_obj, created = User.objects.get_or_create(uid=auth0user.uid)
+    if created:
+        user_obj.name = auth0user.user.username
+        user_obj.email = auth0user.user.email
+        user_obj.save()
     userdata = {
-        'hogehoge' : 'foo'
+        'user' : auth0user.user.username,
     }
     return JsonResponse(userdata)
