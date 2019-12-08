@@ -7,6 +7,8 @@ from urllib.parse import urlencode
 from django.contrib.auth.decorators import login_required
 import json
 from rest_framework.response import Response
+from django.http import JsonResponse
+
 
 def logout(request):
     log_out(request)
@@ -20,4 +22,4 @@ def authorize(request):
     userdata = {
         'hogehoge' : 'foo'
     }
-    return Response(userdata)
+    return JsonResponse(userdata)
