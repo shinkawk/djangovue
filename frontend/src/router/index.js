@@ -21,6 +21,10 @@ const routes = [
   {
     path: '/login/auth0',
     beforeEnter () { location.href = '/login/auth0' }
+  },
+  {
+    path: '/logout',
+    beforeEnter () { location.href = '/logout' }
   }
 ]
 

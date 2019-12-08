@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'users',
     'tasks',
     'social_django',
+    'djangovue'
 ]
 
 MIDDLEWARE = [
@@ -139,7 +140,7 @@ SOCIAL_AUTH_AUTH0_SCOPE = [
 ]
 
 AUTHENTICATION_BACKENDS = {
-    'social_core.backends.auth0.Auth0OAuth2',
+    'auth0login.auth0backend.Auth0',
     'django.contrib.auth.backends.ModelBackend'
 }
 
