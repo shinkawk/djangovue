@@ -25,6 +25,7 @@ def authorize(request):
     if created:
         user_obj.name = auth0user.user.username
         user_obj.email = auth0user.user.email
+        user_obj.pic = auth0user.extra_data['picture']
         user_obj.save()
     userdata = {
         'user' : auth0user.user.username,

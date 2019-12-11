@@ -4,7 +4,7 @@ from .models import User
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display=  ('id', 'name', 'uid', 'email', 'created_at', 'updated_at')
+    list_display=  ('name', 'uid', 'email', 'created_at', 'updated_at')
     fields = ('name', 'email')
 
     class Meta:
