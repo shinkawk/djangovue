@@ -14,15 +14,15 @@ class Task(models.Model):
     
     class Meta:
         ordering = ('id',)
-        db_table = "Tasks"
+        db_table = "tasks"
 
 class Setting(models.Model):
     id = models.AutoField(primary_key=True)
-    task_id = models.OneToOneField('Task', on_delete=models.CASCADE)
+    task = models.OneToOneField('Task', on_delete=models.CASCADE)
     data = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
     class Meta:
             ordering = ('id', )
-            db_table = "Settings"
+            db_table = "settings"
