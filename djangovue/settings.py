@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'users',
     'tasks',
+    'recipes',
     'social_django',
     'djangovue'
 ]
