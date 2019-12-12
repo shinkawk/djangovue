@@ -8,10 +8,6 @@ from users.models import User, UserResourceSerializer, UserSerializer
 class UserAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
-
     def get(self, request, format=None):
         user = request.user
         auth0user = user.social_auth.get(provider='auth0')

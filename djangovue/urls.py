@@ -19,7 +19,6 @@ from django.conf.urls import include, url
 from django.views.generic import TemplateView
 from django.urls import include, path
 
-from users import urls
 from auth0login import views as auth0views
 
 urlpatterns = [
@@ -27,7 +26,7 @@ urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='index.html')),
 
     path('', include('users.urls')),
-
+    path('', include('tasks.urls')),
 
     path('', include('social_django.urls')),
     path('logout/', auth0views.logout, name='logout'),
