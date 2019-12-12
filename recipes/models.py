@@ -25,7 +25,7 @@ class Recipe(models.Model):
         db_table = "recipes"
 
 class UserRecipe(models.Model):
-    id = models.AutoField(primary_key=True)   
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
     disc =  models.TextField(max_length=100)
     task1 = models.ForeignKey(UserTask, on_delete=models.DO_NOTHING, related_name='task1')

@@ -12,5 +12,18 @@ class User(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     class Meta:
-        ordering = ('created_at',)
+        ordering = ('id',)
         db_table = "users"
+
+class UserResource(models.Model):
+    id = models.AutoField(primary_key=True)
+    path = models.CharField(max_length=100)
+    format = models.CharField(max_length=50)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('id',)
+        db_table = "user_resources"
+    
