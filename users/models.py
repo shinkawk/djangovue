@@ -26,4 +26,9 @@ class UserResource(models.Model):
     class Meta:
         ordering = ('id',)
         db_table = "user_resources"
-    
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'name', 'uid', 'email', 'pic', 'created_at')
