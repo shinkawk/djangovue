@@ -33,7 +33,7 @@ class UserTask(models.Model):
     id =  models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
     disc = models.TextField(max_length=100, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tasks")
     task = models.ForeignKey(Task, on_delete=models.DO_NOTHING)
     data = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -49,3 +49,8 @@ class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = ('id', 'name', 'disc', 'format')
+
+class UserTaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserTask
+        fields = ('id','name', 'disc', 'user', 'task', 'data', 'created_at', 'updated_at')
