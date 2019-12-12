@@ -19,7 +19,7 @@ class UserResource(models.Model):
     id = models.AutoField(primary_key=True)
     path = models.CharField(max_length=100)
     format = models.CharField(max_length=50)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="resources")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -27,8 +27,13 @@ class UserResource(models.Model):
         ordering = ('id',)
         db_table = "user_resources"
 
+    def __str__(self):
+        return '%s:%s' % (self.path, self.format)
+
 
 class UserSerializer(serializers.ModelSerializer):
+    resources = serializers.StringRelatedField(many=True, read_only=True)
+
     class Meta:
         model = User
-        fields = ('id', 'name', 'uid', 'email', 'pic', 'created_at')
+        fields = ('id', 'name', 'uid', 'email', 'pic', 'resources' ,'created_at')
