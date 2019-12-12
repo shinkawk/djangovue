@@ -37,3 +37,8 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'name', 'uid', 'email', 'pic', 'resources' ,'created_at')
+
+class UserResourceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserResource
+        fields = ('path', 'format', 'created_at')

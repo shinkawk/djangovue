@@ -3,10 +3,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions, status
 from django.contrib.auth.decorators import login_required
-from users.models import User, UserSerializer
+from users.models import User, UserResourceSerializer, UserSerializer
 
 class UserAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
 
     def get(self, request, format=None):
         user = request.user
@@ -31,3 +35,16 @@ class UserAPIView(APIView):
         current_user = User.objects.get(uid=auth0user.uid)
         current_user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class UserResourceAPIView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, format=None):
+        user = request.user
+        auth0user = user.social_auth.get(provider='auth0')
+        current_user = User.objects.get(uid=auth0user.uid)
+        serializer = UserResourceSerializer(current_user.resources, many=True)
+        return Response(serializer.data)
+
+
+
