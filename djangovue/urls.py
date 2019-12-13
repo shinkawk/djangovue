@@ -27,6 +27,7 @@ urlpatterns = [
 
     path('', include('users.urls')),
     path('', include('tasks.urls')),
+    path('', include('recipes.urls')),
 
     path('', include('social_django.urls')),
     path('logout/', auth0views.logout, name='logout'),
