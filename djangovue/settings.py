@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'tasks',
     'recipes',
     'social_django',
-    'djangovue'
+    'djangovue',
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [

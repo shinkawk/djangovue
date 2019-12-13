@@ -10,6 +10,7 @@ django-rest-framework = "*"
 python-jose = "*"
 social-auth-app-django = "*"
 Django = "*"
+drf-yasg = "*"
 
 [requires]
 python_version = "3.7"
