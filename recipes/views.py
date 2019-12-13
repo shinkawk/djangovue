@@ -18,16 +18,12 @@ class UserRecipeListAPIView(views.APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, format=None):
-        user = request.user
-        auth0user = user.social_auth.get(provider='auth0')
-        current_user = User.objects.get(uid=auth0user.uid)
+        current_user = request.current_user
         serializer = UserRecipeSerializer(current_user.recipes, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        user = request.user
-        auth0user = user.social_auth.get(provider='auth0')
-        current_user = User.objects.get(uid=auth0user.uid)
+        current_user = request.current_user
         request.data['user'] = current_user.id
         serializer = UserRecipeSerializer(data=request.data)
         if serializer.is_valid():
@@ -39,9 +35,7 @@ class UserRecipeAPIView(views.APIView):
     permission_classes = (permissions.IsAuthenticated,)
     
     def get(self, request, pk, format=None):
-        user = request.user
-        auth0user = user.social_auth.get(provider='auth0')
-        current_user = User.objects.get(uid=auth0user.uid)
+        current_user = request.current_user
         task = current_user.recipes.filter(id=pk).first()
         if task:
             serializer = UserRecipeSerializer(task)
@@ -49,9 +43,7 @@ class UserRecipeAPIView(views.APIView):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, pk, format=None):
-        user = request.user
-        auth0user = user.social_auth.get(provider='auth0')
-        current_user = User.objects.get(uid=auth0user.uid)
+        current_user = request.current_user
         request.data['user'] = current_user.id
         serializer = UserRecipeSerializer(data=request.data)
         if serializer.is_valid() and current_user.recipes.filter(id=pk).first():
@@ -60,9 +52,7 @@ class UserRecipeAPIView(views.APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
-        user = request.user
-        auth0user = user.social_auth.get(provider='auth0')
-        current_user = User.objects.get(uid=auth0user.uid)
+        current_user = request.current_user
         recipe = current_user.recipes.filter(id=pk).first()
         if recipe:
             recipe.delete()    

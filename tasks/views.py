@@ -22,16 +22,12 @@ class UserTaskListAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, format=None):
-        user = request.user
-        auth0user = user.social_auth.get(provider='auth0')
-        current_user = User.objects.get(uid=auth0user.uid)
+        current_user = request.current_user
         serializer = UserTaskSerializer(current_user.tasks, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        user = request.user
-        auth0user = user.social_auth.get(provider='auth0')
-        current_user = User.objects.get(uid=auth0user.uid)
+        current_user = request.current_user
         request.data['user'] = current_user.id
         serializer = UserTaskSerializer(data=request.data)
         if serializer.is_valid():
@@ -43,9 +39,7 @@ class UserTaskAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
     
     def get(self, request, pk, format=None):
-        user = request.user
-        auth0user = user.social_auth.get(provider='auth0')
-        current_user = User.objects.get(uid=auth0user.uid)
+        current_user = request.current_user
         task = current_user.tasks.filter(id=pk).first()
         if task:
             serializer = UserTaskSerializer(task)
@@ -53,9 +47,7 @@ class UserTaskAPIView(APIView):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, pk, format=None):
-        user = request.user
-        auth0user = user.social_auth.get(provider='auth0')
-        current_user = User.objects.get(uid=auth0user.uid)
+        current_user = request.current_user
         request.data['user'] = current_user.id
         serializer = UserTaskSerializer(data=request.data)
         if serializer.is_valid() and current_user.tasks.filter(id=pk).first():
@@ -64,9 +56,7 @@ class UserTaskAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
-        user = request.user
-        auth0user = user.social_auth.get(provider='auth0')
-        current_user = User.objects.get(uid=auth0user.uid)
+        current_user = request.current_user
         task = current_user.tasks.filter(id=pk).first()
         if task:
             task.delete()    

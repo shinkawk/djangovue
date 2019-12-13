@@ -9,16 +9,11 @@ class UserAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, format=None):
-        user = request.user
-        auth0user = user.social_auth.get(provider='auth0')
-        current_user = User.objects.get(uid=auth0user.uid)
-        serializer = UserSerializer(current_user)
+        serializer = UserSerializer(request.current_user)
         return Response(serializer.data)
 
     def put(self, request, format=None):
-        user = request.user
-        auth0user = user.social_auth.get(provider='auth0')
-        current_user = User.objects.get(uid=auth0user.uid)
+        current_user = request.current_user
         serializer = UserSerializer(current_user, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -26,9 +21,7 @@ class UserAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, format=None):
-        user = request.user
-        auth0user = user.social_auth.get(provider='auth0')
-        current_user = User.objects.get(uid=auth0user.uid)
+        current_user = request.current_user
         current_user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -36,9 +29,7 @@ class UserResourceAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, format=None):
-        user = request.user
-        auth0user = user.social_auth.get(provider='auth0')
-        current_user = User.objects.get(uid=auth0user.uid)
+        current_user = request.current_user
         serializer = UserResourceSerializer(current_user.resources, many=True)
         return Response(serializer.data)
 
