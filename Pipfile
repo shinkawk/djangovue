@@ -11,6 +11,7 @@ python-jose = "*"
 social-auth-app-django = "*"
 Django = "*"
 drf-yasg = "*"
+factory-boy = "*"
 
 [requires]
 python_version = "3.7"
