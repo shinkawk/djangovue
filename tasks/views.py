@@ -28,7 +28,8 @@ class UserTaskListAPIView(APIView):
 
     def post(self, request, format=None):
         current_user = request.current_user
-        request.data['user'] = current_user.id
+        if request.data['user'] != str(current_user.id):
+            return Response(status=status.HTTP_400_BAD_REQUEST)
         serializer = UserTaskSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -48,9 +49,11 @@ class UserTaskAPIView(APIView):
 
     def put(self, request, pk, format=None):
         current_user = request.current_user
-        request.data['user'] = current_user.id
-        serializer = UserTaskSerializer(data=request.data)
-        if serializer.is_valid() and current_user.tasks.filter(id=pk).first():
+        user_task = current_user.tasks.filter(id=pk).first()
+        if request.data['user'] != str(current_user.id) or user_task==None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        serializer = UserTaskSerializer(user_task, data=request.data)
+        if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

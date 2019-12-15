@@ -35,9 +35,8 @@ class ProfileTest(TestCase):
         response = self.client.post('/profile/', {'name': 'user1', 'email': 'test@mail.com', 'pic':'dog.jpg'} )
         self.assertEqual(response.status_code, 405)
 
-
     def test_profile_put(self):
-        response = self.client.get('/profile/')
+        response = self.client.put('/profile/',  {'name': 'user1', 'email': 'test@mail.com', 'pic':'dog.jpg'})
         self.assertEqual(response.status_code, 403)
 
         self.client.login(username= self.auth0User.username, password = self.password)
@@ -85,7 +84,7 @@ class InventoryFilesTest(TestCase):
         self.assertEqual(len(response.data), 10)
     
     def test_inventoryfiles_post(self):
-        response = self.client.get('/inventory/files/')
+        response = self.client.post('/inventory/files/', {})
         self.assertEqual(response.status_code, 403)
 
         self.client.login(username= self.auth0User.username, password = self.password)
@@ -93,7 +92,7 @@ class InventoryFilesTest(TestCase):
         self.assertEqual(response.status_code, 405)
     
     def test_inventoryfiles_put(self):
-        response = self.client.get('/inventory/files/')
+        response = self.client.put('/inventory/files/', {})
         self.assertEqual(response.status_code, 403)
 
         self.client.login(username= self.auth0User.username, password = self.password)
@@ -101,7 +100,7 @@ class InventoryFilesTest(TestCase):
         self.assertEqual(response.status_code, 405)
     
     def test_inventoryfiles_delete(self):
-        response = self.client.get('/inventory/files/')
+        response = self.client.delete('/inventory/files/')
         self.assertEqual(response.status_code, 403)
 
         self.client.login(username= self.auth0User.username, password = self.password)

@@ -8,7 +8,7 @@ def get_current_user(request):
     auth0user = user.social_auth.get(provider='auth0')
     try:
         return User.objects.get(uid=auth0user.uid)
-    except Exception:
+    except Exception as e:
         return None
 
 class Auth0MiddleWare(MiddlewareMixin):
