@@ -17,6 +17,7 @@ class ProfileTest(TestCase):
         self.assertEqual(response.status_code, 403)
 
         self.client.login(username= self.auth0User.username, password = self.password)
+        
         response = self.client.get('/profile/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['id'], self.user.id)
@@ -31,6 +32,7 @@ class ProfileTest(TestCase):
         self.assertEqual(response.status_code, 403)
 
         self.client.login(username= self.auth0User.username, password = self.password)
+
         response = self.client.put('/profile/', {'name': 'user1', 'email': 'test@mail.com', 'pic':'dog.jpg'} )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(User.objects.get(id=self.user.id).name, 'user1')
@@ -41,11 +43,35 @@ class ProfileTest(TestCase):
         self.assertEqual(User.objects.get(id=self.user.id).uid, self.user.uid)
         self.assertEqual(User.objects.get(id=self.user.id).id, self.user.id)
 
+        response = self.client.put('/profile/', {'name': 'user1', 'email': 'test@mail.com'} )
+        self.assertEqual(response.status_code, 400)
+
     def test_delete(self):
         response = self.client.get('/profile/')
         self.assertEqual(response.status_code, 403)
 
         self.client.login(username= self.auth0User.username, password = self.password)
+        
         response = self.client.delete('/profile/')
         self.assertEqual(response.status_code, 204)
         self.assertRaises(User.DoesNotExist, User.objects.get, id=self.user.id)
+
+class InventoryFilesTest(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.user, self.auth0User, self.social_auth = createUserInfo()
+        self.resources = UserResorceModelFactory.create_batch(10, user=self.user)
+        self.password = "hogehoge"
+        self.auth0User.set_password(self.password)
+        self.auth0User.save()
+
+    def test_get(self):
+        response = self.client.get('/inventory/files/')
+        self.assertEqual(response.status_code, 403)
+
+        self.client.login(username= self.auth0User.username, password = self.password)
+        
+        response = self.client.get('/inventory/files/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 10)
+    
