@@ -12,7 +12,7 @@ class ProfileTest(TestCase):
         self.auth0User.set_password(self.password)
         self.auth0User.save()
 
-    def test_get(self):
+    def test_profile_get(self):
         response = self.client.get('/profile/')
         self.assertEqual(response.status_code, 403)
 
@@ -27,7 +27,16 @@ class ProfileTest(TestCase):
         self.assertEqual(response.data['pic'], self.user.pic)
         self.assertEqual(len(response.data['resources']), 10)
 
-    def test_put(self):
+    def test_profile_post(self):
+        response = self.client.get('/profile/')
+        self.assertEqual(response.status_code, 403)
+        
+        self.client.login(username= self.auth0User.username, password = self.password)
+        response = self.client.post('/profile/', {'name': 'user1', 'email': 'test@mail.com', 'pic':'dog.jpg'} )
+        self.assertEqual(response.status_code, 405)
+
+
+    def test_profile_put(self):
         response = self.client.get('/profile/')
         self.assertEqual(response.status_code, 403)
 
@@ -46,7 +55,7 @@ class ProfileTest(TestCase):
         response = self.client.put('/profile/', {'name': 'user1', 'email': 'test@mail.com'} )
         self.assertEqual(response.status_code, 400)
 
-    def test_delete(self):
+    def test_profile_delete(self):
         response = self.client.get('/profile/')
         self.assertEqual(response.status_code, 403)
 
@@ -65,7 +74,7 @@ class InventoryFilesTest(TestCase):
         self.auth0User.set_password(self.password)
         self.auth0User.save()
 
-    def test_get(self):
+    def test_inventoryfiles_get(self):
         response = self.client.get('/inventory/files/')
         self.assertEqual(response.status_code, 403)
 
@@ -75,3 +84,26 @@ class InventoryFilesTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 10)
     
+    def test_inventoryfiles_post(self):
+        response = self.client.get('/inventory/files/')
+        self.assertEqual(response.status_code, 403)
+
+        self.client.login(username= self.auth0User.username, password = self.password)
+        response = self.client.post('/inventory/files/', {})
+        self.assertEqual(response.status_code, 405)
+    
+    def test_inventoryfiles_put(self):
+        response = self.client.get('/inventory/files/')
+        self.assertEqual(response.status_code, 403)
+
+        self.client.login(username= self.auth0User.username, password = self.password)
+        response = self.client.put('/inventory/files/', {})
+        self.assertEqual(response.status_code, 405)
+    
+    def test_inventoryfiles_delete(self):
+        response = self.client.get('/inventory/files/')
+        self.assertEqual(response.status_code, 403)
+
+        self.client.login(username= self.auth0User.username, password = self.password)
+        response = self.client.delete('/inventory/files/')
+        self.assertEqual(response.status_code, 405)
