@@ -5,7 +5,7 @@ from rest_framework import serializers
 class User(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
-    uid = models.CharField(max_length=100, editable=False)
+    uid = models.CharField(max_length=100, editable=False, unique=True)
     email = models.EmailField(max_length=100)
     pic = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)

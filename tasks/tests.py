@@ -96,21 +96,20 @@ class InnventoryTasksTest(TestCase):
         self.assertEqual(response.data['id'], self.userTasks[0].id)
         self.assertEqual(response.data['name'], self.userTasks[0].name)
         self.assertEqual(response.data['disc'], self.userTasks[0].disc)
-        self.assertEqual(response.data['data'], self.userTasks[0].data)
 
         random_user = UserModelFactory.create(id=999999, uid="abcdefg1234")
         random_usertask = UserTaskModelFactory.create(user=random_user)
         response = self.client.get('/inventory/tasks/{}'.format(random_usertask.id))
         self.assertEqual(response.status_code, 400)
 
-    def test_tasks_post(self):
+    def test_usertasks_post(self):
         task = TaskModelFactory.create()
         response = self.client.post('/inventory/tasks/', {'name':'new usertask', 'disc': 'this is a disc', 'user': self.user.id, 'task': task.id, 'data': 'hogehoge'})
         self.assertEqual(response.status_code, 403)
 
         self.client.login(username= self.auth0User.username, password = self.password)
         
-        response = self.client.post('/inventory/tasks/', {'name':'new usertask', 'disc': 'this is a disc', 'user': self.user.id, 'task': task.id, 'data': 'hogehoge'})
+        response = self.client.post('/inventory/tasks/', {'name':'new usertask', 'disc': 'this is a disc', 'user': self.user.id, 'task': task.id , 'data': 'hogehoge'})
         self.assertEqual(response.status_code, 201)
         self.assertEqual(UserTask.objects.get(name='new usertask').disc, 'this is a disc')
         self.assertEqual(UserTask.objects.get(name='new usertask').user, self.user)
@@ -119,7 +118,7 @@ class InnventoryTasksTest(TestCase):
         response = self.client.post('/inventory/tasks/', {'name':'new usertask', 'disc': 'this is a disc', 'user': 99999, 'task': task.id, 'data': 'hogehoge'})
         self.assertEqual(response.status_code, 400)
 
-    def test_tasks_put(self):
+    def test_usertasks_put(self):
         task = TaskModelFactory.create()
         response = self.client.put('/inventory/tasks/{}'.format(self.userTasks[0].id), {'name':'new usertask', 'disc': 'this is a disc', 'user': self.user.id, 'task': task.id, 'data': 'hogehoge'})
         self.assertEqual(response.status_code, 403)
@@ -140,7 +139,7 @@ class InnventoryTasksTest(TestCase):
         response = self.client.put('/inventory/tasks/99999', {'name':'new usertask', 'disc': 'this is a disc', 'user': self.user.id, 'task': task.id, 'data': 'hogehoge'})
         self.assertEqual(response.status_code, 400)
     
-    def test_tasks_delete(self):
+    def test_usertasks_delete(self):
         response = self.client.delete('/inventory/tasks/{}'.format(self.userTasks[0].id))
         self.assertEqual(response.status_code, 403)
 

@@ -58,5 +58,5 @@ class RecipeSerializer(serializers.ModelSerializer):
 class UserRecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserRecipe
-        fields =  ('id', 'name', 'disc', 'task1', 'task2', 'task3','task4',
+        fields =  ('id', 'name', 'user','disc', 'task1', 'task2', 'task3','task4',
         'task5', 'task6', 'task7', 'task8', 'task9', 'task10', 'created_at', 'updated_at')
