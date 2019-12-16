@@ -48,6 +48,7 @@ class ProfileTest(TestCase):
         self.assertEqual(User.objects.get(id=self.user.id).pic, 'dog.jpg')
 
         response = self.client.put('/profile/', {'id': 5 ,'name': 'user1', 'uid':'this should fail' ,'email': 'test@mail.com', 'pic':'dog.jpg'} )
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(User.objects.get(id=self.user.id).uid, self.user.uid)
         self.assertEqual(User.objects.get(id=self.user.id).id, self.user.id)
 
