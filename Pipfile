@@ -12,6 +12,8 @@ social-auth-app-django = "*"
 Django = "*"
 drf-yasg = "*"
 factory-boy = "*"
+coverage = "*"
+django-nose = "*"
 
 [requires]
 python_version = "3.7"

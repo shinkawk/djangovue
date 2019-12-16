@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'recipes',
     'social_django',
     'djangovue',
-    'drf_yasg'
+    'drf_yasg',
+    'django_nose'
 ]
 
 MIDDLEWARE = [
@@ -150,3 +151,12 @@ AUTHENTICATION_BACKENDS = {
 LOGIN_URL = '/login/auth0'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+# Use nose to run all tests
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+# Tell nose to measure coverage on the 'foo' and 'bar' apps
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-package=djangovue,auth0login,recipes,tasks,users',
+]
